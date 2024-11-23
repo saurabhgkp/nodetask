@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .passed {
+            color: green;
+        }
+
+        .failed {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Checklist Evaluation</h1>
+    <ul id="results"></ul>
+
+    <script>
+        async function fetchResults() {
+            const response = await fetch('/checklist');
+            const results = await response.json();
+            const resultsContainer = document.getElementById('results');
+            results.forEach(rule => {
+                const li = document.createElement('li');
+                li.className = rule.passed ? 'passed' : 'failed';
+                li.textContent = `${rule.name}: ${rule.passed ? 'Passed' : 'Failed'}`;
+                resultsContainer.appendChild(li);
+            });
+        }
+
+        fetchResults();
+    </script>
+</body>
+
+</html>
